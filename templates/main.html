@@ -29,7 +29,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="m-3 bg-gradient-to-t from-[#7B4397] to-[#DC2430] min-h-screen">
+<body class="m-3 bg-gradient-to-t from-[#8360c3] to-[#2ebf91] min-h-screen">
 
     <!-- Header -->
     <div class="text-center my-8">
@@ -66,12 +66,15 @@
     <div class="bg-black/30 backdrop-blur-sm border border-white/20 mx-auto max-w-2xl p-6 rounded-2xl shadow-lg">
         <h2 class="text-white text-xl font-semibold mb-4">💭 Thoughts</h2>
         {% for confession in data %}
-            <div class="my-4">
-                <div class="bg-white/10 rounded-xl p-4 flex justify-between">
-                    <p class="text-white">{{confession[1]}}</p>
+        <div class="my-4">
+            <div class="bg-white/10 rounded-xl p-4 ">
+                <div class="flex justify-end">
                     <p class="text-white">{{confession[2]}}</p>
                 </div>
+                <p class="text-white">{{confession[1]}}</p>
+
             </div>
+        </div>
         {% endfor %}
 
     </div>
