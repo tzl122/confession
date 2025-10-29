@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Thoughts</title>
+    <style>
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="m-3 bg-gradient-to-t from-[#7B4397] to-[#DC2430] min-h-screen">
+
+    <!-- Header -->
+    <div class="text-center my-8">
+        <h1 class="text-white font-semibold text-3xl mb-2">🔒 Share your thoughts anonymously</h1>
+        <p class="text-white/80 text-lg">Speak without revealing 🤫 </p>
+    </div>
+
+    <!-- Input Form -->
+    <form method="POST" class="mb-8">
+        <div
+            class="flex flex-col justify-center bg-white/10 backdrop-blur-sm border border-white/20 mx-auto max-w-2xl p-6 rounded-2xl shadow-lg">
+
+            <!-- Textarea -->
+            <div class="mb-4">
+                <textarea name="secret" id="textInput"
+                    class="w-full h-40 text-lg focus:outline-none text-black bg-white/30 rounded-xl p-4 resize-none placeholder-gray-500"
+                    placeholder="Share your thoughts, secrets, or ideas..."></textarea>
+            </div>
+
+            <!-- Word Counter -->
+            <div class="flex justify-end">
+                <p id="wordCount" class="text-white"></p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn"
+                class="bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl px-6 py-3 transition-all duration-300 hover:scale-105 active:scale-95">
+                Submit
+            </button>
+        </div>
+    </form>
+
+    <!-- Thoughts Display -->
+    <div class="bg-black/30 backdrop-blur-sm border border-white/20 mx-auto max-w-2xl p-6 rounded-2xl shadow-lg">
+        <h2 class="text-white text-xl font-semibold mb-4">💭 Thoughts</h2>
+        {% for confession in data %}
+            <div class="my-4">
+                <div class="bg-white/10 rounded-xl p-4 flex justify-between">
+                    <p class="text-white">{{confession[1]}}</p>
+                    <p class="text-white">{{confession[2]}}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+</body>
+
+<script>
+    // Get elements
+    const textInput = document.getElementById("textInput");
+    const wordCount = document.getElementById("wordCount");
+    const submitBtn = document.getElementById("submitBtn");
+    const maxWordCount = 250;
+
+    // Word count and limit handler
+    textInput.addEventListener('input', () => {
+        const words = textInput.value.trim().split(/\s+/);
+        const currentWordCount = textInput.value.trim() === '' ? 0 : words.length;
+
+        // Update counter
+        wordCount.textContent = `${currentWordCount}/${maxWordCount} words`;
+
+        // Check limit
+        if (currentWordCount > maxWordCount) {
+            const allowedText = words.slice(0, maxWordCount).join(' ');
+            textInput.value = allowedText;
+            wordCount.textContent = `${maxWordCount}/${maxWordCount} words`;
+            wordCount.classList.add('text-red-400');
+
+            // Shake effect
+            textInput.classList.add('animate-shake');
+            setTimeout(() => textInput.classList.remove('animate-shake'), 200);
+        } else {
+            wordCount.classList.remove('text-red-400');
+        }
+    });
+
+    // Submit validation
+    submitBtn.addEventListener('click', (e) => {
+        const words = textInput.value.trim().split(/\s+/);
+        const currentWordCount = textInput.value.trim() === '' ? 0 : words.length;
+
+        if (currentWordCount === 0) {
+            e.preventDefault(); // Stop form submit
+            alert("Please input something!");
+            textInput.classList.add('animate-shake');
+            setTimeout(() => textInput.classList.remove('animate-shake'), 200);
+        } else {
+            textInput.textContent = " ";
+        }
+    });
+</script>
+
+</html>
